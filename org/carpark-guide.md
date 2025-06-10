@@ -65,19 +65,17 @@ This guide provides detailed step-by-step instructions for completing the projec
 **Additional evidencing:**
 Include a screenshot of your GitHub repository **after** you have pushed your initial commit.
 
-```markdown
-![Initial commit](images/mu_image.png)
-```
+![initial_commits](images/initial_commits.png)
 
 ### Identify classes, methods, and attributes
 
 After reading the task requirements, you should be able to identify the classes, methods, and attributes required for the car park system. Complete the following table with the classes, methods, and attributes you must implement.
 
-| Class Name | Attributes | Methods |
-| ---------- | ---------- | ------- |
-| `CarPark`    |            |         |
-| `Sensor`     |            |         |
-| `Display`    |            |         |
+| Class Name | Attributes                                                                                                                     | Methods                                                    |
+|------------|--------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------|
+| `CarPark`  | `capacity`, `avaliable_bay_count`, `parked_cars`, `waiting_cars`, `all_cars`, `temperature`, `sensors`, `displays`, `location` |                                                            |
+| `Sensor`   | `id`, `is_active`, `car_park`                                                                                                  | `scan_car()`                                               |
+| `Display`  | `id`, `is_on`, `car_park`, `message`                                                                                           | `show_occupancy()`, `show_temperature()`, `show_message()` |
 
 **Additional evidencing:**
 Ensure you have completed the previous table and include at least two methods and attributes for each.
@@ -105,20 +103,19 @@ Ensure you have completed the previous table and include at least two methods an
 **Additional evidencing:**
 Include a screenshot of your GitHub repository `src/` directory **after** you have pushed your changes.
 
-```markdown
-![Added stubs for classes](images/stubs-for-classes.png)
-```
+![Added stubs for classes](images/stubs_for_classes.png)
+
 
 ### Add constructors and attributes to the classes
 
 #### CarPark class
 
 1. Create an `__init__` method for the `CarPark` class. This method will be called when a new `CarPark` object is created. The method should accept the following parameters:
-   - `location`
-   - `capacity`
-   - `plates`
-   - `sensors`
-   - `displays`
+    - `location`
+    - `capacity`
+    - `plates`
+    - `sensors`
+    - `displays`
 2. Add instance variables for each of the parameters. For example, `self.location = location`.
 3. Add a default value for each parameter. For example, `location = "Unknown"`.
 4. Notice that plates, sensors, and displays are lists ("plurals"). Sensors/Displays, hold references to instances of sensors/displays. The `plates` attribute holds references to license plates represented as strings (built-in/primitive types). Specifying these at initialization is optional, but we don't want to use an empty list as the default. For example, `self.sensors = []`. Lists are **mutable**, and we must never set mutable defaults for parameters. Thus we make the defaults `None`.
@@ -147,10 +144,10 @@ Include a screenshot of your GitHub repository `src/` directory **after** you ha
 #### Display class
 
 1. Create an `__init__` method for the `Display` class. This method will be called when creating a new `Display` object. The method should accept the following parameters:
-   - `id`
-   - `message`
-   - `is_on`
-   - `car_park`
+    - `id`
+    - `message`
+    - `is_on`
+    - `car_park`
 2. Add instance variables for each of the parameters. For example, `self.id = id`.
 3. Add default values for parameters, such that there is no default for id or car park, but there is a default for message and status. For example, `message = ""` and `is_on = False`.
 4. Create a `__str__` method for the `Display` class. This method will be called when you print a `Display` object. The method should return a string containing the display's ID and message. For example, `"Display 1: Welcome to the car park."`.
@@ -158,14 +155,14 @@ Include a screenshot of your GitHub repository `src/` directory **after** you ha
 #### Sensor class
 
 1. Create an `__init__` method for the `Sensor` class. This method will be called when a new `Sensor` object is created. The method should accept the following parameters:
-   - `id`
-   - `is_active`
-   - `car_park`
+    - `id`
+    - `is_active`
+    - `car_park`
 
    You realize that you need to distinguish between entry and exit sensors. Since each of those sensors will need different methods, you decide to subclass the `Sensor` class.
 
 2. Create a new class called `EntrySensor` that inherits from `Sensor`. The `EntrySensor` class should **not** have an `__init__` method.
-Do the same for the `ExitSensor` class.
+   Do the same for the `ExitSensor` class.
 
    Your `sensor.py` file should now look similar to this:
 
@@ -207,11 +204,8 @@ You realize that you need a way to configure the car park system. You decide to 
 **Additional evidencing:**
 Ensure that you have completed the previous steps and created the appropriate tags. Confirm that the tags have been created by running `git tag` in the terminal and provide a screenshot of the output.
 
-```bash
-[student@workstation ipriot-car-park-prj]$ git tag
-s1
-s2
-```
+![Added git tags](images/git_tags.png)
+
 
 ### Relate the classes
 
@@ -241,38 +235,38 @@ The following class diagram presents this relationship:
 
 ```mermaid
 classDiagram
-      CarPark "1" o-- "0..*" Display
-      CarPark "1" *-- "0..*" Sensor
-      Sensor <|.. EntrySensor
-      Sensor <|.. ExitSensor
+CarPark "1" o-- "0..*" Display
+CarPark "1" *-- "0..*" Sensor
+Sensor <|.. EntrySensor
+Sensor <|.. ExitSensor
 
 
-      class CarPark {
-         - sensors: Sensor[]
-         - displays: Display[]
-         - plates: String[]
-         + register(obj: Sensor | Display) void
-         + add_car(plate: str) void
-         + remove_car(plate: str) void
-         + update_displays() void
-      }
-      class Sensor {
-         <<abstract>>
-         - car_park: CarPark
-         - update_car_park(plate: str) void
-         + detect_car() void
-      }
-      class EntrySensor{
-         - update_car_park(plate: str) void
+class CarPark {
+- sensors: Sensor[]
+- displays: Display[]
+- plates: String[]
++ register(obj: Sensor | Display) void
++ add_car(plate: str) void
++ remove_car(plate: str) void
++ update_displays() void
+}
+class Sensor {
+<<abstract>>
+- car_park: CarPark
+- update_car_park(plate: str) void
++ detect_car() void
+}
+class EntrySensor{
+- update_car_park(plate: str) void
 
       }
-      class ExitSensor{
-         - update_car_park(plate: str) void
-      }
-      class Display {
-         - car_park: CarPark
-         + update() void
-      }
+class ExitSensor{
+- update_car_park(plate: str) void
+}
+class Display {
+- car_park: CarPark
++ update() void
+}
 ```
 
 The diagram omits methods and attributes irrelevant to the relationship between the classes. Notice that the `CarPark` class has a `register` method that allows it to register sensors and displays.
@@ -312,25 +306,25 @@ Let's do that now. Add the following code to the top of the `register` method:
 
    ```python
    # ... inside the CarPark class
-   def register(self, component):
-      if not isinstance(component, (Sensor, Display)):
-         raise TypeError("Object must be a Sensor or Display")
+def register(self, component):
+    if not isinstance(component, (Sensor, Display)):
+        raise TypeError("Object must be a Sensor or Display")
    ```
 
 The `isinstance` function checks if an object is an instance of a class. In this case, we check if the `component` is an instance of either the `Sensor` or `Display` class. Notice that we'll need to import the `Sensor` and `Display` classes to use them in the `isinstance` function. Add the following import statement to the top of the `car_park.py` file:
 
    ```python
    from sensor import Sensor
-   from display import Display
+from display import Display
    ```
 
 Now, we can add the code to add the `component` to the appropriate list. Add the following code to the `register` method:
 
    ```python
    # ... inside the register method
-   if isinstance(component, Sensor):
-      self.sensors.append(component)
-   # TODO: add an elif to check if the component is a Display - MUST
+if isinstance(component, Sensor):
+    self.sensors.append(component)
+# TODO: add an elif to check if the component is a Display - MUST
    ```
 
 **Additional evidencing:**
@@ -381,15 +375,15 @@ Now consider, between the `CarPark`, `Sensor`, and `Display` classes, which clas
 
 You realize that you need to maintain the number of available bays. The number of available bays is a curious case. On the one hand, this value is an attribute of the car park. However, it is also a **property** of the car park's capacity and the number of cars in the car park. In other words, it is a **derived** value. We can calculate the number of available bays by subtracting the number of cars from the capacity. We can do this in the `CarPark` class by adding a `get_available_bays` method. This method will return the number of available bays.
 
-But you're uncomfortable with this because even though you derive the value through a calculation, it still seems conceptually like an attribute. Python has a built-in way of treating a simple method that represents a property of an object as an attribute. We can use it to protect values and make attributes derived via simple calculations easier to access. Fittingly, it is called a **property**. We can create a property by adding a `@property` decorator (we'll learn more about decorators in the diploma) to a method. While decorators can have a wide range of uses, there are only a few you need to use right now, and you just have to remember what they do rather than how they do it. A `property` decorator will make a method behave like an attribute (i.e. we access it rather than call it). 
+But you're uncomfortable with this because even though you derive the value through a calculation, it still seems conceptually like an attribute. Python has a built-in way of treating a simple method that represents a property of an object as an attribute. We can use it to protect values and make attributes derived via simple calculations easier to access. Fittingly, it is called a **property**. We can create a property by adding a `@property` decorator (we'll learn more about decorators in the diploma) to a method. While decorators can have a wide range of uses, there are only a few you need to use right now, and you just have to remember what they do rather than how they do it. A `property` decorator will make a method behave like an attribute (i.e. we access it rather than call it).
 
 Let's add `available_bays` as a property now:
 
 ```python
       # ... inside the CarPark class
-      @property
-      def available_bays(self):
-         return self.capacity - len(self.plates)
+@property
+def available_bays(self):
+    return self.capacity - len(self.plates)
 ```
 
 Notice that we did **not** use a verb in a property name. This is because, again, properties are accessed like attributes. For example, `car_park.available_bays` instead of `car_park.get_available_bays()`.
@@ -402,7 +396,7 @@ O-oh!
 
 You recognize an issue: **What if the number of cars that enter exceeds capacity?**
 
-We might not be able to stop this from happening! Recall that there is no boom gate or access control in the car park, so cars can still come in even if the car park is full. 
+We might not be able to stop this from happening! Recall that there is no boom gate or access control in the car park, so cars can still come in even if the car park is full.
 
 But what should our car park do when this happens? Do we want to allow the number of available bays to be negative? Should we set it to zero? Should we raise an exception? Something else?
 
@@ -453,18 +447,18 @@ Answer the following questions:
 > **Review Questions**
 >
 > 1. **Which class is responsible for each of the following pieces of information (and why)?**
->    - _The number of available bays_
->      `Answer here...`
+     >    - _The number of available bays_
+            >      `Answer here...`
 >    - _The current temperature_
->      `Answer here...`
+       >      `Answer here...`
 >    - _The time_
->      `Answer here...`
+       >      `Answer here...`
 >
 > 2. **What is the difference between an attribute and a property?**
->    `Answer here...`
+     >    `Answer here...`
 >
 > 3. **Why do you think we used a dictionary to hold the data we passed the display? List at least one advantage and one disadvantage of this approach.**
->    `Answer here...`
+     >    `Answer here...`
 
 #### Add a detect vehicle method to the Sensor class
 
@@ -476,7 +470,7 @@ The `update_car_park` method should be implemented in the `EntrySensor` and `Exi
 
 ```mermaid
 classDiagram
-        class Sensor {
+    class Sensor {
         <<abstract>>
         -scan_plate()
         +detect_vehicle()
@@ -518,10 +512,10 @@ classDiagram
    ```
 
 5. Create a `detect_vehicle` method **in the Sensor class**. The method includes the following steps:
-   - Call the `_scan_plate` method to get the plate.
-   - Call the `update_car_park` method with the plate.
-   Notice that the `update_car_park` method is abstract. It is **not** implemented in the `Sensor` class. This is because the implementation will be determined by the subclass.
-   Here is a proposed implementation:
+    - Call the `_scan_plate` method to get the plate.
+    - Call the `update_car_park` method with the plate.
+      Notice that the `update_car_park` method is abstract. It is **not** implemented in the `Sensor` class. This is because the implementation will be determined by the subclass.
+      Here is a proposed implementation:
 
    ```python
       # ... inside the Sensor class
@@ -555,7 +549,7 @@ So just for this simulation, we will override the _scan_plate method to return a
 ```python
 # ... inside the ExitSensor class
 def _scan_plate(self):
-   return random.choice(self.car_park.plates)
+    return random.choice(self.car_park.plates)
 ```
 
 **Additional evidencing:**
@@ -625,10 +619,10 @@ classDiagram
         update(data: dictionary)
     }
 
-    CarPark "1" o-- "0..*" Display : contains
-    CarPark "1" *-- "0..*" Sensor : contains
-    Sensor <|.. EntrySensor
-    Sensor <|..  ExitSensor
+CarPark "1" o-- "0..*" Display : contains
+CarPark "1" *-- "0..*" Sensor : contains
+Sensor <|.. EntrySensor
+Sensor <|..  ExitSensor
 
 ```
 
@@ -647,48 +641,48 @@ import unittest
 from car_park import CarPark
 
 class TestCarPark(unittest.TestCase):
-      def setUp(self):
-         self.car_park = CarPark("123 Example Street", 100)
+    def setUp(self):
+        self.car_park = CarPark("123 Example Street", 100)
 
-      def test_car_park_initialized_with_all_attributes(self):
-         self.assertIsInstance(self.car_park, CarPark)
-         self.assertEqual(self.car_park.location, "123 Example Street")
-         self.assertEqual(self.car_park.capacity, 100)
-         self.assertEqual(self.car_park.plates, [])
-         self.assertEqual(self.car_park.sensors, [])
-         self.assertEqual(self.car_park.displays, [])
-         self.assertEqual(self.car_park.available_bays, 100)
+    def test_car_park_initialized_with_all_attributes(self):
+        self.assertIsInstance(self.car_park, CarPark)
+        self.assertEqual(self.car_park.location, "123 Example Street")
+        self.assertEqual(self.car_park.capacity, 100)
+        self.assertEqual(self.car_park.plates, [])
+        self.assertEqual(self.car_park.sensors, [])
+        self.assertEqual(self.car_park.displays, [])
+        self.assertEqual(self.car_park.available_bays, 100)
 
-      def test_add_car(self):
-         self.car_park.add_car("FAKE-001")
-         self.assertEqual(self.car_park.plates, ["FAKE-001"])
-         self.assertEqual(self.car_park.available_bays, 99)
+    def test_add_car(self):
+        self.car_park.add_car("FAKE-001")
+        self.assertEqual(self.car_park.plates, ["FAKE-001"])
+        self.assertEqual(self.car_park.available_bays, 99)
 
-      def test_remove_car(self):
-         self.car_park.add_car("FAKE-001")
-         self.car_park.remove_car("FAKE-001")
-         self.assertEqual(self.car_park.plates, [])
-         self.assertEqual(self.car_park.available_bays, 100)
+    def test_remove_car(self):
+        self.car_park.add_car("FAKE-001")
+        self.car_park.remove_car("FAKE-001")
+        self.assertEqual(self.car_park.plates, [])
+        self.assertEqual(self.car_park.available_bays, 100)
 
-      def test_overfill_the_car_park(self):
-         for i in range(100):
+    def test_overfill_the_car_park(self):
+        for i in range(100):
             self.car_park.add_car(f"FAKE-{i}")
-         self.assertEqual(self.car_park.available_bays, 0)
-         self.car_park.add_car("FAKE-100")
-         # Overfilling the car park should not change the number of available bays
-         self.assertEqual(self.car_park.available_bays, 0)
+        self.assertEqual(self.car_park.available_bays, 0)
+        self.car_park.add_car("FAKE-100")
+        # Overfilling the car park should not change the number of available bays
+        self.assertEqual(self.car_park.available_bays, 0)
 
-         # Removing a car from an overfilled car park should not change the number of available bays
-         self.car_park.remove_car("FAKE-100")
-         self.assertEqual(self.car_park.available_bays, 0)
+        # Removing a car from an overfilled car park should not change the number of available bays
+        self.car_park.remove_car("FAKE-100")
+        self.assertEqual(self.car_park.available_bays, 0)
 
-      def test_removing_a_car_that_does_not_exist(self):
-         with self.assertRaises(ValueError):
+    def test_removing_a_car_that_does_not_exist(self):
+        with self.assertRaises(ValueError):
             self.car_park.remove_car("NO-1")
 
 
 if __name__ == "__main__":
-   unittest.main()
+    unittest.main()
 
 ```
 
@@ -733,10 +727,10 @@ Next, we'll create tests for the `Display` class. These tests will test the `__i
 
 3. Create a `TestDisplay` class that inherits from `unittest.TestCase`.
 4. Create a `setUp` method that creates a `Display` object and a `CarPark` object. The `Display` object should have the following attributes:
-   - `id`: 1
-   - `message`: "Welcome to the car park"
-   - `is_on`: True
-   - `car_park`: CarPark(...)
+    - `id`: 1
+    - `message`: "Welcome to the car park"
+    - `is_on`: True
+    - `car_park`: CarPark(...)
 
 5. Create a `test_display_initialized_with_all_attributes` method. This method should test that the `Display` object was initialized with the correct attributes. Here is a sample implementation:
 
@@ -794,7 +788,7 @@ Create a new unit test in the `test_car_park.py` file called `test_register_rais
 ```python
 # ... inside the TestCarPark class
 with self.assertRaises(TypeError):
-   self.car_park.register("Not a Sensor or Display")
+    self.car_park.register("Not a Sensor or Display")
 ```
 
 **Additional evidencing:**
@@ -820,7 +814,7 @@ Create a new local branch named `feature/log-car-activity`. You can do this eith
    git switch -c feature/log-car-activity
    ```
 
-   This command creates a new branch **and** switches to it. Notice that the branch name is prefixed with `feature/` and uses `kebab-case`. This is a common convention for branch naming. Further, notice that we avoid the temptation to combine unrelated functionality in a single branch. This is a common mistake that can lead to problems later on.
+This command creates a new branch **and** switches to it. Notice that the branch name is prefixed with `feature/` and uses `kebab-case`. This is a common convention for branch naming. Further, notice that we avoid the temptation to combine unrelated functionality in a single branch. This is a common mistake that can lead to problems later on.
 
 #### Log cars entering and leaving in a file called `log.txt`
 
@@ -987,8 +981,8 @@ Now that you're becoming familiar with the process. Try and do the following:
 1. (Optional) Create a new branch called `feature/store-config-in-json`
 2. (Optional) Create a new unit test to test that a CarPark can be initialized with a `config_file` parameter.
 3. Do one of the following:
-   - Implement the Config class
-   - Implement a save_config method in the CarPark class that returns a CarPark from a config file
+    - Implement the Config class
+    - Implement a save_config method in the CarPark class that returns a CarPark from a config file
 
 We are going to do the latter:
 
