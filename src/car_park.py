@@ -7,3 +7,6 @@ class CarPark:
 
     def __str__(self):
         return f"{self.location} car park with {self.capacity} bays."
+
+    def update_display(self):
+        ...
