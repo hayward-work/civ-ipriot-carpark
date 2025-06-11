@@ -22,7 +22,6 @@ class Sensor(ABC):
         return 'FAKE-' + format(random.randint(0, 999), "03d")
 
 class EntrySensor(Sensor):
-
     def update_car_park(self, plate):
         self.car_park.add_car(plate)
         print(f"Entering vehicle detected. Plate: {plate}")
