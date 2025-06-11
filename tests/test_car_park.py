@@ -41,6 +41,9 @@ class TestCarPark(unittest.TestCase):
         with self.assertRaises(KeyError):
             self.car_park.remove_car("NO-1")
 
+    def test_register_raises_type_error(self):
+        with self.assertRaises(TypeError):
+            self.car_park.register("How long is a piece of string?")
 
 if __name__ == "__main__":
     unittest.main()
