@@ -8,7 +8,7 @@ class CarPark:
         self.capacity = capacity
         self.sensors = sensors or []
         self.displays = displays or []
-        self.cars = all_cars or {}
+        self.cars = all_cars or set()
 
     def __str__(self):
         return f"{self.location} car park with {self.capacity} bays."
