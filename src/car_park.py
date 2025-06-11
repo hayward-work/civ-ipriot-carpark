@@ -8,7 +8,7 @@ class CarPark:
         self.capacity = capacity
         self.sensors = sensors or []
         self.displays = displays or []
-        self.all_cars = all_cars or {}
+        self.cars = all_cars or {}
 
     def __str__(self):
         return f"{self.location} car park with {self.capacity} bays."
@@ -23,14 +23,26 @@ class CarPark:
                 raise TypeError("Object must be of type Sensor or Display")
 
     def add_car(self, plate):
-        self.all_cars.add(plate)
+        self.cars.add(plate)
         self.update_displays()
 
     def remove_car(self, plate):
-        self.all_cars.remove(plate)
+        self.cars.remove(plate)
         # Change to use .discard() if issues arise
         self.update_displays()
 
     def update_displays(self):
+        info = {"occupancy": self.occupancy,
+                "temperature": self.temperature,}
         for i in self.displays:
-            i.update()
+            i.update(info)
+
+    @property
+    def occupancy(self):
+        occupancy = self.capacity - len(self.cars)
+        if occupancy > 0:
+            return occupancy
+        else:
+            return 0
+
+    temperature = 25

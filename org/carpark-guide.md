@@ -71,11 +71,11 @@ Include a screenshot of your GitHub repository **after** you have pushed your in
 
 After reading the task requirements, you should be able to identify the classes, methods, and attributes required for the car park system. Complete the following table with the classes, methods, and attributes you must implement.
 
-| Class Name | Attributes                                                                                                                     | Methods                                                    |
-|------------|--------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------|
-| `CarPark`  | `capacity`, `avaliable_bay_count`, `parked_cars`, `waiting_cars`, `all_cars`, `temperature`, `sensors`, `displays`, `location` |                                                            |
-| `Sensor`   | `id`, `is_active`, `car_park`                                                                                                  | `scan_car()`                                               |
-| `Display`  | `id`, `is_on`, `car_park`, `message`                                                                                           | `show_occupancy()`, `show_temperature()`, `show_message()` |
+| Class Name | Attributes                                                                                                                                  | Methods                                                    |
+|------------|---------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------|
+| `CarPark`  | `capacity`, `occupancy`, `avaliable_bay_count`, `parked_cars`, `waiting_cars`, `all_cars`, `temperature`, `sensors`, `displays`, `location` |                                                            |
+| `Sensor`   | `id`, `is_active`, `car_park`                                                                                                               | `scan_car()`                                               |
+| `Display`  | `id`, `is_on`, `car_park`, `message`                                                                                                        | `show_occupancy()`, `show_temperature()`, `show_message()` |
 
 **Additional evidencing:**
 Ensure you have completed the previous table and include at least two methods and attributes for each.
@@ -363,12 +363,12 @@ You may want to see the number of available bays, the current temperature, and t
 
 Now consider, between the `CarPark`, `Sensor`, and `Display` classes, which class is responsible for each piece of information? There's no right or wrong answer here. But you should be able to justify your answer.
 
->Q. Which class is responsible for the number of available bays (and why)?
->
+> Q. Which class is responsible for the number of available bays (and why)?
+> CarPark, as the number of available bays is relevant within the class.
 >Q. Which class is responsible for the current temperature (and why)?
->
+> CarPark, as the temperature refers to the general area and not the temperature at each individual display
 >Q. Which class is responsible for the time (and why)?
->
+> Since the car parks are unlikely to cross timezones, we can assume that all objects within the car park do not significantly differ in their experience of time
 --------
 
 ##### Detour: implement available bays

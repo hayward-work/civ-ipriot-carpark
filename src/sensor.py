@@ -6,6 +6,9 @@ class Sensor(ABC):
         self.car_park = car_park
         self.is_active = is_active
 
+    def __str__(self):
+        return f"Sensor {self.id}, active status: {self.is_active}"
+
     @abstractmethod
     def update_car_park(self):
         ...
