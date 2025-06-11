@@ -439,9 +439,7 @@ This time, we will push the tag to the remote repository:
 
 Add a screenshot of the GitHub repository after pushing the tag, showing the CarPark class with the new methods:
 
-```markdown
 ![Added methods to the car park class](images/methods-to-car-park.png)
-```
 
 Answer the following questions:
 > **Review Questions**
@@ -458,7 +456,9 @@ Answer the following questions:
      >    `Answer here...`
 >
 > 3. **Why do you think we used a dictionary to hold the data we passed the display? List at least one advantage and one disadvantage of this approach.**
-     >    `Answer here...`
+     > Pro: Dictionaries use keys to locate values, this means we can exclusively update the values that pair to the keys we pass `update()` while ignoring any other values which we may not want to update at this time.
+     >
+     > Con: That also means we gotta know the keys ahead of time
 
 #### Add a detect vehicle method to the Sensor class
 
