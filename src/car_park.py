@@ -1,3 +1,4 @@
+import json
 from pathlib import Path
 from datetime import datetime
 from display import Display
@@ -5,7 +6,7 @@ from sensor import Sensor
 
 
 class CarPark:
-    def __init__(self, location, capacity, all_cars=None, sensors=None,  displays=None, log_file=Path("log.txt")):
+    def __init__(self, location, capacity, all_cars=None, sensors=None,  displays=None, log_file=Path("log.txt"), config_file=Path("config.json")):
         self.location = location
         self.capacity = capacity
         self.sensors = sensors or []
@@ -13,6 +14,8 @@ class CarPark:
         self.cars = all_cars or set()
         self.log_file = log_file if isinstance(log_file, Path) else Path("log.txt")
         self.log_file.touch(exist_ok=True)
+        self.config_file = config_file if isinstance(config_file, Path) else Path("config.json")
+        self.config_file.touch(exist_ok=True)
 
     def __str__(self):
         return f"{self.location} car park with {self.capacity} bays."
@@ -41,8 +44,6 @@ class CarPark:
         self.update_displays()
         self._log_car_activity(plate, "exited")
 
-
-
     def update_displays(self):
         info = {"occupancy": self.occupancy,
                 "temperature": self.temperature,}
@@ -56,5 +57,18 @@ class CarPark:
             return occupancy
         else:
             return 0
+
+    @classmethod
+    def from_config(cls, config_file=Path("config.json")):
+        config_file = config_file if isinstance(config_file, Path) else Path(config_file)
+        with config_file.open() as f:
+            config = json.load(f)
+        return cls(config["location"], config["capacity"], log_file=config["log_file"])
+
+    def write_config(self):
+        with self.config_file.open("w") as f:
+            json.dump({"location": self.location,
+                       "capacity": self.capacity,
+                       "log_file": str(self.log_file)}, f)
 
     temperature = 25
