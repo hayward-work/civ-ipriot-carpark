@@ -1,7 +1,5 @@
 import unittest
 from pathlib import Path
-
-import car_park
 from car_park import CarPark
 
 class TestCarPark(unittest.TestCase):
