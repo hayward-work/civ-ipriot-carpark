@@ -1,5 +1,7 @@
 import unittest
 from pathlib import Path
+
+import car_park
 from car_park import CarPark
 
 class TestCarPark(unittest.TestCase):
@@ -71,6 +73,12 @@ class TestCarPark(unittest.TestCase):
         self.assertIn("NEW-001", last_line)  # check plate entered
         self.assertIn("exited", last_line)  # check description
         self.assertIn("\n", last_line)  # check entry has a new line
+
+    def test_car_park_can_be_initialized_with_config_param(self):
+        try:
+            CarPark(self.car_park.location, 100, config_file=None)
+        except ValueError:
+            self.fail("CarPark initialization failed")
 
 if __name__ == "__main__":
     unittest.main()
