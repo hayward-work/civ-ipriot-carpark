@@ -1,9 +1,12 @@
 from car_park import CarPark
 from sensor import EntrySensor, ExitSensor
 from display import Display
+
+
 def main():
     # TODO: create a car park object with the location moondalup, capacity 100, and log_file "moondalup.txt"
     car_park = CarPark("Moondalup", 100, log_file="moondalup.txt")
+    car_park.write_config()
 
     # TODO: create an entry sensor object with id 1, is_active True, and car_park car_park
     entry_sensor = EntrySensor(1, car_park, True)
@@ -25,5 +28,6 @@ def main():
     for i in range(2):
         exit_sensor.detect_car()
 
-    if __name__ == main:
-        main()
+
+if __name__ == "__main__":
+    main()
