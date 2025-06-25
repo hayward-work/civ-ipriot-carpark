@@ -15,7 +15,7 @@ class TestDisplay(unittest.TestCase):
 
     def test_detect_car(self):
         self.entry_sensor.detect_car()
-        self.assertIsNot(self.car_park.cars, None)
+        self.assertTrue(len(self.car_park.cars) > 0)
 
 if __name__ == "__main__":
     unittest.main()
