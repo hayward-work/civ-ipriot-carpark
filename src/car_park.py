@@ -21,6 +21,13 @@ class CarPark:
         return f"{self.location} car park with {self.capacity} bays."
 
     def _log_car_activity(self, plate, action):
+        """
+        Writes activity to log file specified by path stored in ``log_file``.
+        :param plate: car license plate action was performed upon.
+        :type plate: str
+        :param action: performed action being logged.
+        :type action: str
+        """
         with self.log_file.open("a") as log:
             log.write(f"{plate} {action} at {datetime.now():%Y-%m-%d %H:%M:%S}\n")
 
@@ -33,6 +40,7 @@ class CarPark:
             case _:
                 raise TypeError("Object must be of type Sensor or Display")
 
+
     def add_car(self, plate):
         self.cars.add(plate)
         self.update_displays()
@@ -40,7 +48,6 @@ class CarPark:
 
     def remove_car(self, plate):
         self.cars.remove(plate)
-        # Change to use .discard() if issues arise
         self.update_displays()
         self._log_car_activity(plate, "exited")
 
